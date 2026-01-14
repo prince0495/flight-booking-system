@@ -1,0 +1,124 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id            String              @id @unique @default(uuid())
+  name          String
+  email         String              @unique
+  password      String
+  role          UserType            @default(NORMAL)
+  tickets       Ticket[]
+  wallet        Wallet?
+  created_at    DateTime            @default(now())
+  updated_at    DateTime            @default(now())
+}
+
+model Wallet {
+  id            String              @id @unique @default(uuid())
+  amount        Int
+  user_id       String              @unique
+  user          User                @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  transactions  Transaction[]
+  created_at    DateTime            @default(now())
+  updated_at    DateTime            @default(now())
+}
+
+model Transaction {
+  id            String              @id @unique @default(uuid())
+  wallet_id     String              
+  wallet        Wallet              @relation(fields: [wallet_id], references: [id], onDelete: Cascade)
+  amount        Int
+  type          TransactionType
+  created_at    DateTime
+}
+
+enum TransactionType {
+  CREDIT
+  DEBIT
+}
+
+enum UserType {
+  ADMIN
+  NORMAL
+}
+
+model Airport {
+  id            String              @id @unique @default(uuid())
+  code          String              @unique
+  name          String
+  city          String
+  country       String
+  latitude      Float
+  longitude     Float
+
+  departureFlights  Flight[]         @relation(name: "Departure")
+  arrivalFlights    Flight[]         @relation(name: "Arrival")
+}
+
+model Airline {
+  id            String              @id @unique @default(uuid())
+  name          String
+  code          String              @unique
+  aircrafts     Aircraft[]          
+}
+
+model Aircraft {
+  id            String              @id @unique @default(uuid())
+  model         String
+  airlineId     String
+  airline       Airline             @relation(fields: [airlineId], references: [id], onDelete: Cascade)
+  total_seats   Int                 @default(0)
+  economy_seats Int                 @default(0)
+  business_seats Int                 @default(0)
+  firstclass_seats Int                 @default(0)
+  economy_seat_price Int                 @default(0)
+  business_seat_price Int                 @default(0)
+  firstclass_seat_price Int                 @default(0)
+  flights               Flight[]
+}
+
+model Flight {
+  id            String              @id @unique @default(uuid())
+  flight_number Int                 @unique @default(autoincrement())
+  aircraftId    String
+  aircraft      Aircraft            @relation(fields: [aircraftId], references: [id], onDelete: Cascade)
+  departure_airport_id  String
+  departure_airport Airport         @relation(name: "Departure", fields: [departure_airport_id], references: [id], onDelete: Cascade)
+  arrival_airport_id  String
+  arrival_airport   Airport         @relation(name: "Arrival", fields: [arrival_airport_id], references: [id], onDelete: Cascade)
+  departure_time    DateTime
+  duration_minutes  Int
+  schedule_id       String
+  schedule          Schedule        @relation(fields: [schedule_id], references: [id], onDelete: Cascade)
+  tickets           Ticket[]
+  created_at        DateTime        @default(now())
+  updated_at        DateTime        @default(now())
+}
+
+model Schedule {
+  id              String            @id @unique @default(uuid())
+  date            DateTime
+  flights         Flight[]
+}
+
+model Ticket {
+  id              String            @id @unique @default(uuid())
+  user_id         String
+  user            User              @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  flight_id       String
+  flight          Flight            @relation(fields: [flight_id], references: [id], onDelete: Cascade)
+  amount          Int
+  created_at      DateTime          @default(now())
+}
