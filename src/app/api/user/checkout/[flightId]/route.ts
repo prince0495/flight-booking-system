@@ -1,10 +1,14 @@
 import prisma from "@/lib/prisma";
-import { Prisma } from "@prisma/client";
 import { jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 const JWT_SECRET = new TextEncoder().encode("james");
+
+type PrismaTx = Parameters<
+  Parameters<typeof prisma.$transaction>[0]
+>[0];
+
 
 export async function POST(req: NextRequest) {
     try {
@@ -85,7 +89,7 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({success: false, msg: 'Insufficient amount'}, {status: 403});
         }
         console.log('new wallet amount = ', (wallet.amount - price) );
-        const ticket = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
+        const ticket = await prisma.$transaction(async (tx: PrismaTx) => {
             await tx.wallet.update({
                 where: {user_id: userId},
                 data: {

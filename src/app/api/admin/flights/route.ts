@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { startOfDay } from "date-fns"; // Recommended library for date math
-import { Prisma } from "@prisma/client";
+
+type PrismaTx = Parameters<
+  Parameters<typeof prisma.$transaction>[0]
+>[0];
+
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -41,7 +45,7 @@ export async function POST(req: NextRequest) {
     const depDate = new Date(departure_time);
     const normalizedScheduleDate = startOfDay(depDate);
 
-    const flight = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
+    const flight = await prisma.$transaction(async (tx: PrismaTx) => {
       let schedule = await tx.schedule.findFirst({
         where: { date: normalizedScheduleDate }
       });
