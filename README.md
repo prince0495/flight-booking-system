@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Flight Booking System
 
-## Getting Started
+Successfully completed the assignment for Flight Booking System
 
-First, run the development server:
+**Production URL: "Will be available soon (a lot of linting issues, had to manually fix all builds. npm run build giving no errors but still on vercel it does so manually have to check it
+Temporary URL: https://streamable.com/ral607
+Access this temporary url to see the glimpse of this project
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## About the Project
+
+This project let the admins control all flights information across the globe, and let their friendly users to interact with the flights, and intuitively book flights and get tickets offline.
+
+---
+
+## Features
+
+- Admin: Create airports, airlines, aircrafts, and schedule flights
+- User: Filtering based flight booking
+- User: Tickets history with download button to download pdf of ticket offline
+- Authentication
+
+---
+
+## Tech Stack
+
+Nextjs, shadcn, zod, jsonwebtoken, postgresql, prisma orm, tailwindcss
+
+## Running the Project Locally
+
+npm install
+
+Create .env in root folder and copy paste this 
+```
+DATABASE_URL="postgresql://neondb_owner:npg_ulGit3WX4HUr@ep-mute-night-a1759ngj-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+npm run dev
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project will start on http://localhost:3000
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+It's completed in 24 hours so don't forget to give me feedbacks.
