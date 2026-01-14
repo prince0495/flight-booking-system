@@ -5,8 +5,14 @@ import { Building2, Plus, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
+interface Airline {
+  id: string;
+  name: string;
+  code: string;
+}
+
 export default function AirlineManager() {
-  const [airlines, setAirlines] = useState<any[]>([]);
+  const [airlines, setAirlines] = useState<Airline[]>([]);
   const [loading, setLoading] = useState(true);
 
   const [showForm, setShowForm] = useState(false);
@@ -111,7 +117,9 @@ export default function AirlineManager() {
                 <Building2 className="h-6 w-6" />
               </div>
               <div>
-                <h4 className="font-bold text-slate-900">{airline.name}</h4>
+                <h4 className="font-bold text-slate-900">
+                  {airline.name}
+                </h4>
                 <p className="text-xs font-mono text-slate-500 uppercase tracking-widest">
                   {airline.code}
                 </p>

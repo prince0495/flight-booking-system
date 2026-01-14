@@ -5,20 +5,61 @@ import { Download, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import jsPDF from "jspdf";
 
+interface Airport {
+  code: string;
+  city: string;
+}
+
+interface Airline {
+  name: string;
+  code: string;
+}
+
+interface Aircraft {
+  model: string;
+  airline: Airline;
+}
+
+interface Flight {
+  flight_number: string;
+  departure_time: string;
+  duration_minutes: number;
+  departure_airport: Airport;
+  arrival_airport: Airport;
+  aircraft: Aircraft;
+}
+
+interface User {
+  name: string;
+  email: string;
+}
+
+interface Ticket {
+  id: string;
+  amount: number;
+  created_at: string;
+  user: User;
+  flight: Flight;
+}
+
+interface TicketsResponse {
+  tickets: Ticket[];
+}
+
 export default function MyTicketsPage() {
-  const [tickets, setTickets] = useState<any[]>([]);
+  const [tickets, setTickets] = useState<Ticket[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch("/api/user/tickets")
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data: TicketsResponse) => {
         setTickets(data.tickets || []);
         setLoading(false);
       });
   }, []);
 
-  const downloadPDF = (ticket: any) => {
+  const downloadPDF = (ticket: Ticket) => {
     const doc = new jsPDF();
 
     const flight = ticket.flight;
@@ -54,7 +95,11 @@ export default function MyTicketsPage() {
     y += 6;
 
     doc.setFontSize(10);
-    doc.text(`Airline: ${airline.name} (${airline.code})`, 20, y);
+    doc.text(
+      `Airline: ${airline.name} (${airline.code})`,
+      20,
+      y
+    );
     y += 5;
     doc.text(`Aircraft: ${aircraft.model}`, 20, y);
     y += 5;
@@ -79,13 +124,19 @@ export default function MyTicketsPage() {
 
     doc.setFontSize(10);
     doc.text(
-      `Departure: ${new Date(flight.departure_time).toLocaleString()}`,
+      `Departure: ${new Date(
+        flight.departure_time
+      ).toLocaleString()}`,
       20,
       y
     );
     y += 5;
 
-    doc.text(`Duration: ${flight.duration_minutes} minutes`, 20, y);
+    doc.text(
+      `Duration: ${flight.duration_minutes} minutes`,
+      20,
+      y
+    );
     y += 8;
 
     doc.setFontSize(12);
@@ -97,7 +148,9 @@ export default function MyTicketsPage() {
     y += 5;
 
     doc.text(
-      `Booked On: ${new Date(ticket.created_at).toLocaleString()}`,
+      `Booked On: ${new Date(
+        ticket.created_at
+      ).toLocaleString()}`,
       20,
       y
     );
@@ -126,13 +179,17 @@ export default function MyTicketsPage() {
 
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-6">
-      <h1 className="text-2xl font-bold text-slate-900">My Tickets</h1>
+      <h1 className="text-2xl font-bold text-slate-900">
+        My Tickets
+      </h1>
 
       {tickets.length === 0 ? (
-        <p className="text-slate-500">No tickets booked yet.</p>
+        <p className="text-slate-500">
+          No tickets booked yet.
+        </p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {tickets.map(ticket => (
+          {tickets.map((ticket) => (
             <div
               key={ticket.id}
               className="bg-white border rounded-xl p-5 space-y-3 shadow-sm"
@@ -154,7 +211,9 @@ export default function MyTicketsPage() {
 
               <p className="text-sm">
                 Departure:{" "}
-                {new Date(ticket.flight.departure_time).toLocaleString()}
+                {new Date(
+                  ticket.flight.departure_time
+                ).toLocaleString()}
               </p>
 
               <div className="flex justify-between items-center pt-3">

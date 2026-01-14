@@ -50,16 +50,8 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json(airline, { status: 201 });
-  } catch (error: any) {
+  } catch (error) {
     console.error("POST /admin/airlines error:", error);
-
-    if (error.code === "P2002") {
-      return NextResponse.json(
-        { message: "Airline with this code already exists" },
-        { status: 409 }
-      );
-    }
-
     return NextResponse.json(
       { message: "Failed to create airline" },
       { status: 500 }

@@ -50,8 +50,8 @@ export default function SigninPage() {
         router.refresh();
       }
       
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(`${err}`);
     }
   }
 

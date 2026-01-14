@@ -56,15 +56,8 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json(airport, { status: 201 });
-  } catch (error: any) {
+  } catch (error) {
     console.error("POST /admin/airports error:", error);
-
-    if (error.code === "P2002") {
-      return NextResponse.json(
-        { message: "Airport with this code already exists" },
-        { status: 409 }
-      );
-    }
 
     return NextResponse.json(
       { message: "Failed to create airport" },

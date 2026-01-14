@@ -5,6 +5,14 @@ import { Plus, MapPin, Globe, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
+type AirportType = {
+  id: string;
+  code: string;
+  name: string;
+  city: string;
+  country: string;
+}
+
 export default function AirportManager() {
   const [airports, setAirports] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -94,7 +102,7 @@ export default function AirportManager() {
             <tbody className="divide-y divide-slate-100">
               {loading ? (
                 <tr><td colSpan={3} className="p-8 text-center"><Loader2 className="animate-spin mx-auto text-slate-400" /></td></tr>
-              ) : airports.map((ap: any) => (
+              ) : airports.map((ap: AirportType) => (
                 <tr key={ap.id} className="hover:bg-slate-50 transition-colors">
                   <td className="px-4 py-3 font-mono font-bold text-blue-600">{ap.code}</td>
                   <td className="px-4 py-3 text-slate-900">{ap.name}</td>

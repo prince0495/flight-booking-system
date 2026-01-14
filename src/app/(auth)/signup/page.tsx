@@ -45,8 +45,8 @@ export default function SignupPage() {
 
       router.push("/");
       router.refresh();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(`${err}`);
     }
   }
 

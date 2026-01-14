@@ -1,13 +1,25 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plane, DollarSign, Loader2 } from "lucide-react";
+import { Plane, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
+interface Airline {
+  id: string;
+  name: string;
+}
+
+interface Aircraft {
+  id: string;
+  model: string;
+  total_seats: number;
+  airline: Airline;
+}
+
 export default function AircraftManager() {
-  const [aircrafts, setAircrafts] = useState<any[]>([]);
-  const [airlines, setAirlines] = useState<any[]>([]);
+  const [aircrafts, setAircrafts] = useState<Aircraft[]>([]);
+  const [airlines, setAirlines] = useState<Airline[]>([]);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
 
@@ -24,8 +36,9 @@ export default function AircraftManager() {
     setLoading(true);
     const [aircraftData, airlineData] = await Promise.all([
       fetch("/api/admin/aircrafts").then(res => res.json()),
-      fetch("/api/admin/airlines").then(res => res.json())
+      fetch("/api/admin/airlines").then(res => res.json()),
     ]);
+
     setAircrafts(aircraftData);
     setAirlines(airlineData);
     setLoading(false);
@@ -71,7 +84,9 @@ export default function AircraftManager() {
   return (
     <div className="p-6 space-y-8">
       <header>
-        <h2 className="text-2xl font-bold text-slate-900">Fleet Management</h2>
+        <h2 className="text-2xl font-bold text-slate-900">
+          Fleet Management
+        </h2>
         <p className="text-slate-500 text-sm">
           Configure aircraft capacity and base fare classes.
         </p>
@@ -108,13 +123,25 @@ export default function AircraftManager() {
             <div className="grid grid-cols-2 gap-2">
               <div>
                 Eco seats
-                <Input type="number" placeholder="Eco Seats" value={economySeats}
-                onChange={e => setEconomySeats(+e.target.value)} />
+                <Input
+                  type="number"
+                  placeholder="Eco Seats"
+                  value={economySeats}
+                  onChange={e =>
+                    setEconomySeats(+e.target.value)
+                  }
+                />
               </div>
               <div>
                 Price
-                <Input type="number" placeholder="Price" value={economyPrice}
-                onChange={e => setEconomyPrice(+e.target.value)} />
+                <Input
+                  type="number"
+                  placeholder="Price"
+                  value={economyPrice}
+                  onChange={e =>
+                    setEconomyPrice(+e.target.value)
+                  }
+                />
               </div>
             </div>
 
@@ -122,13 +149,25 @@ export default function AircraftManager() {
             <div className="grid grid-cols-2 gap-2">
               <div>
                 Biz seats
-                <Input type="number" placeholder="Biz Seats" value={businessSeats}
-                onChange={e => setBusinessSeats(+e.target.value)} />
+                <Input
+                  type="number"
+                  placeholder="Biz Seats"
+                  value={businessSeats}
+                  onChange={e =>
+                    setBusinessSeats(+e.target.value)
+                  }
+                />
               </div>
               <div>
                 Price
-                <Input type="number" placeholder="Price" value={businessPrice}
-                onChange={e => setBusinessPrice(+e.target.value)} />
+                <Input
+                  type="number"
+                  placeholder="Price"
+                  value={businessPrice}
+                  onChange={e =>
+                    setBusinessPrice(+e.target.value)
+                  }
+                />
               </div>
             </div>
 
@@ -136,20 +175,39 @@ export default function AircraftManager() {
             <div className="grid grid-cols-2 gap-2">
               <div>
                 First-class seats
-                <Input type="number" placeholder="First Seats" value={firstSeats}
-                onChange={e => setFirstSeats(+e.target.value)} />
+                <Input
+                  type="number"
+                  placeholder="First Seats"
+                  value={firstSeats}
+                  onChange={e =>
+                    setFirstSeats(+e.target.value)
+                  }
+                />
               </div>
               <div>
                 Price
-                <Input type="number" placeholder="Price" value={firstPrice}
-                onChange={e => setFirstPrice(+e.target.value)} />
+                <Input
+                  type="number"
+                  placeholder="Price"
+                  value={firstPrice}
+                  onChange={e =>
+                    setFirstPrice(+e.target.value)
+                  }
+                />
               </div>
             </div>
           </div>
 
-          <Button onClick={handleSubmit} disabled={submitting}
-            className="w-full bg-blue-600">
-            {submitting ? <Loader2 className="animate-spin" /> : "Add Aircraft"}
+          <Button
+            onClick={handleSubmit}
+            disabled={submitting}
+            className="w-full bg-blue-600"
+          >
+            {submitting ? (
+              <Loader2 className="animate-spin" />
+            ) : (
+              "Add Aircraft"
+            )}
           </Button>
         </div>
 
@@ -157,16 +215,22 @@ export default function AircraftManager() {
         <div className="xl:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-4">
           {loading ? (
             <Loader2 className="animate-spin" />
-          ) : aircrafts.map(ac => (
-            <div key={ac.id}
-              className="bg-white border p-5 rounded-2xl">
-              <h4 className="font-bold">{ac.model}</h4>
-              <p className="text-sm text-blue-600">{ac.airline.name}</p>
-              <p className="text-xs text-slate-500 mt-2">
-                Total Seats: {ac.total_seats}
-              </p>
-            </div>
-          ))}
+          ) : (
+            aircrafts.map(ac => (
+              <div
+                key={ac.id}
+                className="bg-white border p-5 rounded-2xl"
+              >
+                <h4 className="font-bold">{ac.model}</h4>
+                <p className="text-sm text-blue-600">
+                  {ac.airline.name}
+                </p>
+                <p className="text-xs text-slate-500 mt-2">
+                  Total Seats: {ac.total_seats}
+                </p>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>
