@@ -3,7 +3,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import { UserType } from "@/generated/prisma/enums";
 import prisma from "@/lib/prisma";
 
 export type SignupBody = {

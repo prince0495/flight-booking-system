@@ -2,7 +2,7 @@
 // In real usecases, I could have used trpc, better-auth, or some similar logic to always ensure who is visting the route and whether they are eligible to call specific endspoints or not on root server components. 
 import { NextRequest, NextResponse } from "next/server";
 import { jwtVerify } from "jose";
-import { UserType } from "./generated/prisma/enums";
+import { UserType } from "@prisma/client";
 
 const JWT_SECRET = new TextEncoder().encode("james");
 
