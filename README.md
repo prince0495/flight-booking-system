@@ -44,6 +44,14 @@ docker run -p 3000:3000 -e DATABASE_URL="postgresql://neondb_owner:npg_ulGit3WX4
 ```
 It will start at http://localhost:3000
 
+### Please First Login as Admin - To control data dynamically
+Credentials:
+```
+email=admin@mail.com
+password=12345678
+```
+After this create any account to interact with data to book flights
+
 ## Running the Project Locally if you want you avoid docker
 
 npm install
