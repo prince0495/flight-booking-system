@@ -49,6 +49,7 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json(flights);
   } catch (error) {
+    console.log(error);
     return NextResponse.json({ error: "Failed to fetch flights" }, { status: 500 });
   }
 }

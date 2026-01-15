@@ -66,7 +66,10 @@ export default function FlightScheduler() {
     const res = await fetch(
       `/api/admin/flights?date=${date.toISOString()}`
     );
-    setFlights(await res.json());
+    const data = await res.json();
+    console.log(data);
+    
+    setFlights(data);
     setLoading(false);
   };
 
