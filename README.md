@@ -27,7 +27,24 @@ This project let the admins control all flights information across the globe, an
 
 Nextjs, shadcn, zod, jsonwebtoken, postgresql, prisma orm, tailwindcss
 
-## Running the Project Locally
+## Run Directly in Docker with these commands
+
+Clone the repository
+```
+git clone https://github.com/prince0495/flight-booking-system
+cd .\flight-booking-system 
+```
+Run this command to build docker image locally
+```
+docker build -t flyaway .
+```
+Start Docker
+```
+docker run -p 3000:3000 -e DATABASE_URL="postgresql://neondb_owner:npg_ulGit3WX4HUr@ep-mute-night-a1759ngj-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require" flyaway
+```
+It will start at http://localhost:3000
+
+## Running the Project Locally if you want you avoid docker
 
 npm install
 
